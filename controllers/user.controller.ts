@@ -1,6 +1,7 @@
 import { Response, Request } from "express";
 import {genSaltSync, hashSync} from 'bcryptjs';
 
+/** Models */
 import User from "../models/user.model";
 
 /**

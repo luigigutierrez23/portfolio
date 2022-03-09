@@ -28,9 +28,13 @@ const schema = new mongoose_1.Schema({
     images: {
         type: [String]
     },
-    category: {
-        type: String,
-        required: [true, 'Category is required']
+    categories: {
+        type: [{ type: mongoose_1.Types.ObjectId, ref: 'Category' }],
+        required: [true, 'Categories are required']
+    },
+    skills: {
+        type: [{ type: mongoose_1.Types.ObjectId, ref: 'Skill' }],
+        required: [true, 'Skills are required']
     },
     status: {
         type: Boolean,
@@ -40,7 +44,7 @@ const schema = new mongoose_1.Schema({
         type: String,
     },
     progress: {
-        type: String,
+        type: Number,
         required: [true, 'Progress is required']
     }
 });

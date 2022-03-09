@@ -4,9 +4,11 @@ const express_1 = require("express");
 const express_validator_1 = require("express-validator");
 /** Middlewares */
 const fieldValidator_1 = require("../middlewares/fieldValidator");
+const jwtValidator_1 = require("../middlewares/jwtValidator");
+/** Helpers */
+const projectHelper_1 = require("../helpers/projectHelper");
 /** Controller methods */
 const project_controller_1 = require("../controllers/project.controller");
-const jwtValidator_1 = require("../middlewares/jwtValidator");
 const router = (0, express_1.Router)();
 /**
  * Get all projects
@@ -17,6 +19,8 @@ router.get('/', project_controller_1.getProjects);
 */
 router.get('/:id', [
     (0, express_validator_1.check)('id', 'Is not a valid id').isMongoId(),
+    (0, express_validator_1.check)('id').custom(projectHelper_1.existProjectById),
+    (0, express_validator_1.check)('id').custom(projectHelper_1.existProjectByStatus),
     fieldValidator_1.validateFields,
 ], project_controller_1.getProject);
 /**
@@ -24,9 +28,11 @@ router.get('/:id', [
  */
 router.post('/', [
     jwtValidator_1.validateJWT,
-    (0, express_validator_1.check)('name', 'Name is required').notEmpty(),
-    (0, express_validator_1.check)('password', 'Password is required and must be greater than 6 characters').isLength({ min: 6 }),
-    (0, express_validator_1.check)('email', 'Email is not valid').isEmail(),
+    (0, express_validator_1.check)('title', 'Title is required').notEmpty(),
+    (0, express_validator_1.check)('description', 'Description is not valid').notEmpty(),
+    (0, express_validator_1.check)('date', 'Date is required').notEmpty(),
+    (0, express_validator_1.check)('progress', 'Progress is required').notEmpty(),
+    (0, express_validator_1.check)('progress', 'Progress must be a numeber').isNumeric(),
     fieldValidator_1.validateFields
 ], project_controller_1.createProject);
 /**
@@ -35,7 +41,12 @@ router.post('/', [
 router.put('/:id', [
     jwtValidator_1.validateJWT,
     (0, express_validator_1.check)('id', 'Is not a valid id').isMongoId(),
-    (0, express_validator_1.check)('email', 'Email is not valid').isEmail(),
+    (0, express_validator_1.check)('id').custom(projectHelper_1.existProjectById),
+    (0, express_validator_1.check)('title', 'Title is required').notEmpty(),
+    (0, express_validator_1.check)('description', 'Description is not valid').notEmpty(),
+    (0, express_validator_1.check)('date', 'Date is required').notEmpty(),
+    (0, express_validator_1.check)('progress', 'Progress is required').notEmpty(),
+    (0, express_validator_1.check)('progress', 'Progress must be a numeber').isNumeric(),
     fieldValidator_1.validateFields,
 ], project_controller_1.editProject);
 /**
@@ -44,6 +55,7 @@ router.put('/:id', [
 router.delete('/:id', [
     jwtValidator_1.validateJWT,
     (0, express_validator_1.check)('id', 'Is not a valid id').isMongoId(),
+    (0, express_validator_1.check)('id').custom(projectHelper_1.existProjectById),
     fieldValidator_1.validateFields,
 ], project_controller_1.deleteProject);
 exports.default = router;

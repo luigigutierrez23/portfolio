@@ -31,10 +31,10 @@ const project_model_1 = __importDefault(require("../models/project.model"));
  * @param res
  */
 const getProjects = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const projects = yield project_model_1.default.find();
-    res.json({
-        projects,
-    });
+    const projects = yield project_model_1.default.find({ status: true })
+        .populate('categories')
+        .populate('skills');
+    res.json(projects);
 });
 exports.getProjects = getProjects;
 /**
@@ -44,7 +44,9 @@ exports.getProjects = getProjects;
  */
 const getProject = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    const project = yield project_model_1.default.findOne({ _id: id });
+    const project = yield project_model_1.default.findOne({ _id: id, status: true })
+        .populate('categories')
+        .populate('skills');
     res.json(project);
 });
 exports.getProject = getProject;
@@ -54,13 +56,12 @@ exports.getProject = getProject;
  * @param res
  */
 const createProject = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { name, email, password } = req.body;
-    const project = new project_model_1.default({ name, email, password });
+    const { title, description, images, avatar, date, categories, skills, progress } = req.body;
+    const project = new project_model_1.default({ title, description, images, avatar, date, categories, skills, progress });
+    console.log(project);
     //Save user
     yield project.save();
-    res.json({
-        project,
-    });
+    res.json(project);
 });
 exports.createProject = createProject;
 /**
@@ -70,16 +71,10 @@ exports.createProject = createProject;
  */
 const editProject = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;
-    const _a = req.body, { _id, password } = _a, user = __rest(_a, ["_id", "password"]);
-    const existEmail = yield project_model_1.default.findOne({ email: user.email });
-    if (existEmail && (existEmail._id.toString() !== id.toString())) {
-        return res.status(400).json({
-            message: 'Email is already exist',
-        });
-    }
+    const _a = req.body, { _id } = _a, project = __rest(_a, ["_id"]);
     //Save changes
-    const userDB = yield project_model_1.default.findByIdAndUpdate(id, user, { new: true });
-    res.json(userDB);
+    const projectDB = yield project_model_1.default.findByIdAndUpdate(id, project, { new: true });
+    res.json(projectDB);
 });
 exports.editProject = editProject;
 /**
@@ -90,8 +85,8 @@ exports.editProject = editProject;
 const deleteProject = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     //Change status false and keep the record.
-    const user = yield project_model_1.default.findByIdAndUpdate(id, { status: false }, { new: true });
-    res.json(user);
+    const project = yield project_model_1.default.findByIdAndUpdate(id, { status: false }, { new: true });
+    res.json(project);
 });
 exports.deleteProject = deleteProject;
 //# sourceMappingURL=project.controller.js.map

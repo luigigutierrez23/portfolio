@@ -14,8 +14,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Login = void 0;
 const bcryptjs_1 = require("bcryptjs");
-const user_model_1 = __importDefault(require("../models/user.model"));
+/** Helpers */
 const jwtHelper_1 = require("../helpers/jwtHelper");
+/** Models */
+const user_model_1 = __importDefault(require("../models/user.model"));
 /**
  * Login user
  * @param req

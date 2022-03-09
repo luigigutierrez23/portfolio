@@ -1,11 +1,5 @@
 import Category from "../models/category.model";
 
-/****
- * 
- *  Category Helpers
- * 
- */
-
 /**
  * Verify if category exist
  * @param id 

@@ -1,5 +1,6 @@
 import { Response, Request } from "express";
 
+/** Models */
 import Category from "../models/category.model";
 
 /**

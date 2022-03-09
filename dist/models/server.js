@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 /** Enums */
-const enumPath_1 = require("../common/types/enumPath");
+const enumPath_1 = require("../common/types/enums/enumPath");
 /** Database connection */
 const connection_1 = __importDefault(require("../database/connection"));
 /** Routes */

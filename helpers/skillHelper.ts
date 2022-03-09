@@ -1,11 +1,5 @@
 import Skill from "../models/skill.model";
 
-/****
- * 
- *  Skill Helpers
- * 
- */
-
 /**
  * Verify if skill exist
  * @param id 

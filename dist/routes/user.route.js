@@ -2,11 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const express_validator_1 = require("express-validator");
-/** Helpers */
-const userHelper_1 = require("../helpers/userHelper");
 /** Middlewares */
 const jwtValidator_1 = require("../middlewares/jwtValidator");
 const fieldValidator_1 = require("../middlewares/fieldValidator");
+/** Helpers */
+const userHelper_1 = require("../helpers/userHelper");
 /** Controller methods */
 const user_controller_1 = require("../controllers/user.controller");
 const router = (0, express_1.Router)();

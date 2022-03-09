@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.validateJWT = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+/** Models */
 const user_model_1 = __importDefault(require("../models/user.model"));
 /**
  * Validate JWT

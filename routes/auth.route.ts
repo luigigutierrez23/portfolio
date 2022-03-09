@@ -1,4 +1,6 @@
 import { Router } from 'express';
+
+/** Controller methods */
 import { Login } from '../controllers/auth.controller';
 
 

@@ -1,12 +1,12 @@
 import { Router } from 'express';
 import { check } from 'express-validator';
 
-/** Helpers */
-import { existEmail, existUserById, existUserByStatus } from '../helpers/userHelper';
-
 /** Middlewares */
 import { validateJWT } from '../middlewares/jwtValidator';
 import { validateFields } from '../middlewares/fieldValidator';
+
+/** Helpers */
+import { existEmail, existUserById, existUserByStatus } from '../helpers/userHelper';
 
 /** Controller methods */
 import { getUsers, getUser, createUser, editUser, deleteUser } from '../controllers/user.controller';

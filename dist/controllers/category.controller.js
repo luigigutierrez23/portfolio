@@ -24,6 +24,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteCategory = exports.editCategory = exports.createCategory = exports.getCategory = exports.getCategories = void 0;
+/** Models */
 const category_model_1 = __importDefault(require("../models/category.model"));
 /**
  * Get all categories

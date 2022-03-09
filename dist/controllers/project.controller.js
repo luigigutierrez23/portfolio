@@ -23,83 +23,75 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteUser = exports.editUser = exports.createUser = exports.getUser = exports.getUsers = void 0;
-const bcryptjs_1 = require("bcryptjs");
-const user_model_1 = __importDefault(require("../models/user.model"));
+exports.deleteProject = exports.editProject = exports.createProject = exports.getProject = exports.getProjects = void 0;
+const project_model_1 = __importDefault(require("../models/project.model"));
 /**
- * Get all users
+ * Get all projects
  * @param req
  * @param res
  */
-const getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const query = { status: true };
-    const users = yield user_model_1.default.find(query);
-    res.json(users);
-});
-exports.getUsers = getUsers;
-/**
- * Get User by id
- * @param req
- * @param res
- */
-const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
-    const user = yield user_model_1.default.findOne({ _id: id, status: true });
-    res.json(user);
-});
-exports.getUser = getUser;
-/**
- * Create a new user
- * @param req
- * @param res
- */
-const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { name, email, password } = req.body;
-    const user = new user_model_1.default({ name, email, password });
-    /** Encrypt password */
-    const salt = (0, bcryptjs_1.genSaltSync)();
-    user.password = (0, bcryptjs_1.hashSync)(password, salt);
-    //Save user
-    yield user.save();
+const getProjects = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const projects = yield project_model_1.default.find();
     res.json({
-        user,
+        projects,
     });
 });
-exports.createUser = createUser;
+exports.getProjects = getProjects;
 /**
- * Edit user
+ * Get project by id
  * @param req
  * @param res
  */
-const editUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getProject = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const project = yield project_model_1.default.findOne({ _id: id });
+    res.json(project);
+});
+exports.getProject = getProject;
+/**
+ * Create a new project
+ * @param req
+ * @param res
+ */
+const createProject = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { name, email, password } = req.body;
+    const project = new project_model_1.default({ name, email, password });
+    //Save user
+    yield project.save();
+    res.json({
+        project,
+    });
+});
+exports.createProject = createProject;
+/**
+ * Edit project
+ * @param req
+ * @param res
+ */
+const editProject = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;
     const _a = req.body, { _id, password } = _a, user = __rest(_a, ["_id", "password"]);
-    //TODO: Valid with DB
-    if (password) {
-        const salt = (0, bcryptjs_1.genSaltSync)();
-        user.password = (0, bcryptjs_1.hashSync)(password, salt);
-    }
-    const existEmail = yield user_model_1.default.findOne({ email: user.email });
+    const existEmail = yield project_model_1.default.findOne({ email: user.email });
     if (existEmail && (existEmail._id.toString() !== id.toString())) {
         return res.status(400).json({
             message: 'Email is already exist',
         });
     }
     //Save changes
-    const userDB = yield user_model_1.default.findByIdAndUpdate(id, user, { new: true });
+    const userDB = yield project_model_1.default.findByIdAndUpdate(id, user, { new: true });
     res.json(userDB);
 });
-exports.editUser = editUser;
+exports.editProject = editProject;
 /**
- * Delete user
+ * Delete project
  * @param req
  * @param res
  */
-const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const deleteProject = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     //Change status false and keep the record.
-    const user = yield user_model_1.default.findByIdAndUpdate(id, { status: false }, { new: true });
+    const user = yield project_model_1.default.findByIdAndUpdate(id, { status: false }, { new: true });
     res.json(user);
 });
-exports.deleteUser = deleteUser;
-//# sourceMappingURL=user.controller.js.map
+exports.deleteProject = deleteProject;
+//# sourceMappingURL=project.controller.js.map

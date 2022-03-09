@@ -1,13 +1,18 @@
 import express, { Application } from 'express';
 import cors from 'cors';
-// import {  } from 'express-fileupload'
 
-
+/** Enums */
 import { EnumPath } from '../common/types/enumPath';
+
+/** Database connection */
 import dbConnection from '../database/connection';
 
+/** Routes */
 import userRoutes from '../routes/user.route';
 import authRoutes from '../routes/auth.route';
+import projectRoutes from '../routes/projects.route';
+import skillRoutes from '../routes/skill.route';
+import categoryRoutes from '../routes/category.route';
 
 class Server{
     private app:Application;
@@ -40,18 +45,14 @@ class Server{
 
         //Public folder
         this.app.use(express.static('public'));
-
-        //File upload
-        // this.app.use(fileUpload({
-        //     useTempFiles : true,
-        //     tempFileDir : '/tmp/',
-        //     createParentPath: true
-        // }));
     }
 
     routes(){
         this.app.use(this.path.user, userRoutes);
         this.app.use(this.path.auth, authRoutes);
+        this.app.use(this.path.project, projectRoutes);
+        this.app.use(this.path.skill, skillRoutes);
+        this.app.use(this.path.category, categoryRoutes);
     }
 
     listen(){

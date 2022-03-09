@@ -1,5 +1,11 @@
 import User from "../models/user.model";
 
+/****
+ * 
+ *  User Helpers
+ * 
+ */
+
 /**
  * Verify if email exist
  * @param email 
@@ -29,9 +35,9 @@ export const existUserById = async (id = '') => {
  * @param id 
  */
 export const existUserByStatus = async (id = '') => {
-  const exist = await User.findOne({_id: id, status:true});
-  
-  if (!exist) {
-    throw new Error(`User id: ${id} doesn't exist.`);
-  }
+    const exist = await User.findOne({_id: id, status:true});
+    
+    if (!exist) {
+      throw new Error(`User id: ${id} doesn't exist.`);
+    }
 };

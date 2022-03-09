@@ -1,8 +1,11 @@
 import { Response, Request } from "express";
 import { compareSync } from 'bcryptjs'
 
-import User from '../models/user.model';
+/** Helpers */
 import { getJWT } from "../helpers/jwtHelper";
+
+/** Models */
+import User from '../models/user.model';
 
 
 /**

@@ -24,6 +24,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteSkill = exports.editSkill = exports.createSkill = exports.getSkill = exports.getSkills = void 0;
+/** Models */
 const skill_model_1 = __importDefault(require("../models/skill.model"));
 /**
  * Get all skills

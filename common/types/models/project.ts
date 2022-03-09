@@ -1,4 +1,6 @@
 import { Types } from 'mongoose'
+import { Category } from './category';
+import { Skill } from './skill';
 
 export interface Project {
     title: string;
@@ -7,6 +9,7 @@ export interface Project {
     avatar?:string;
     status:boolean;
     date:string;
-    category:string;
-    progress: string;
+    categories: Types.Array<Category>;
+    skills: Types.Array<Skill>;
+    progress: number;
 }

@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model, Types } from 'mongoose';
 import { Project } from '../common/types/models/project';
 
 const schema =  new Schema<Project>({   
@@ -17,9 +17,13 @@ const schema =  new Schema<Project>({
   images: {
       type: [String]
   },
-  category: {
-      type: String,
-      required:[true, 'Category is required'] 
+  categories: {
+      type: [{ type: Types.ObjectId, ref: 'Category'}],
+      required:[true, 'Categories are required'] 
+  },
+  skills : {
+    type: [{ type: Types.ObjectId, ref: 'Skill'}],
+    required: [true, 'Skills are required']
   },
   status: {
     type: Boolean,
@@ -29,7 +33,7 @@ const schema =  new Schema<Project>({
     type:String,
   },
   progress: {
-    type: String,
+    type: Number,
     required: [true, 'Progress is required']
   }
 });

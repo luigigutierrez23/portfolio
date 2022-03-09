@@ -2,7 +2,7 @@ import express, { Application } from 'express';
 import cors from 'cors';
 
 /** Enums */
-import { EnumPath } from '../common/types/enumPath';
+import { EnumPath } from '../common/types/enums/enumPath';
 
 /** Database connection */
 import dbConnection from '../database/connection';

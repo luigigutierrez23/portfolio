@@ -25,6 +25,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteUser = exports.editUser = exports.createUser = exports.getUser = exports.getUsers = void 0;
 const bcryptjs_1 = require("bcryptjs");
+/** Models */
 const user_model_1 = __importDefault(require("../models/user.model"));
 /**
  * Get all users

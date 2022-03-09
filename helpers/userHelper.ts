@@ -1,11 +1,5 @@
 import User from "../models/user.model";
 
-/****
- * 
- *  User Helpers
- * 
- */
-
 /**
  * Verify if email exist
  * @param email 

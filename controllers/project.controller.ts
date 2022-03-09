@@ -1,6 +1,6 @@
 import { Response, Request } from "express";
 
-import Project from "../models/project.model";
+import Project from '../models/project.model';
 
 /**
  * Get all projects
@@ -9,11 +9,11 @@ import Project from "../models/project.model";
  */
 export const getProjects = async (req:Request, res:Response) => {
    
-    const projects = await Project.find();
+    const projects = await Project.find({ status:true })
+        .populate('categories')
+        .populate('skills');
 
-    res.json({
-        projects,
-    });
+    res.json(projects);
 }
 
 /**
@@ -24,7 +24,9 @@ export const getProjects = async (req:Request, res:Response) => {
 export const getProject = async (req:Request, res:Response) => {
     const { id } = req.params;
 
-    const project = await Project.findOne({ _id: id });
+    const project = await Project.findOne({ _id: id, status: true })
+        .populate('categories')
+        .populate('skills');
 
     res.json(project);
 }
@@ -36,14 +38,14 @@ export const getProject = async (req:Request, res:Response) => {
  */
 export const createProject = async (req:Request, res:Response) => {
 
-    const { name, email, password } = req.body;
-    const project = new Project({ name, email, password });
+    const { title, description, images, avatar, date, categories, skills, progress } = req.body;
+    const project = new Project({ title, description, images, avatar, date, categories, skills, progress });
 
+    console.log(project);
+    
     //Save user
     await project.save();
-    res.json({
-        project,
-    });
+    res.json(project);
 }
 
 /**
@@ -53,18 +55,11 @@ export const createProject = async (req:Request, res:Response) => {
  */
 export const editProject = async (req:Request, res:Response) => {
     const id = req.params.id;
-    const { _id, password, ...user } = req.body;
-
-    const existEmail = await Project.findOne({ email: user.email });
-    if(existEmail && (existEmail._id.toString() !== id.toString())){
-        return res.status(400).json({
-            message: 'Email is already exist',
-        });
-    }
+    const { _id, ...project } = req.body;
     
     //Save changes
-    const userDB = await Project.findByIdAndUpdate(id, user, { new:true });
-    res.json(userDB);
+    const projectDB = await Project.findByIdAndUpdate(id, project, { new:true });
+    res.json(projectDB);
 }
 
 /**
@@ -76,7 +71,7 @@ export const deleteProject = async (req:Request, res:Response) => {
     const { id } = req.params;
 
     //Change status false and keep the record.
-    const user = await Project.findByIdAndUpdate(id, { status: false }, { new:true });
+    const project = await Project.findByIdAndUpdate(id, { status: false }, { new:true });
   
-    res.json(user);
+    res.json(project);
 }

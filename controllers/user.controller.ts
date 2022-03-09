@@ -13,9 +13,7 @@ export const getUsers = async (req:Request, res:Response) => {
 
     const users = await User.find(query);
 
-    res.json({
-        users,
-    });
+    res.json(users);
 }
 
 /**

@@ -31,10 +31,8 @@ const skill_model_1 = __importDefault(require("../models/skill.model"));
  * @param res
  */
 const getSkills = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const projects = yield skill_model_1.default.find();
-    res.json({
-        projects,
-    });
+    const skills = yield skill_model_1.default.find();
+    res.json(skills);
 });
 exports.getSkills = getSkills;
 /**
@@ -44,8 +42,8 @@ exports.getSkills = getSkills;
  */
 const getSkill = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    const project = yield skill_model_1.default.findOne({ _id: id });
-    res.json(project);
+    const skill = yield skill_model_1.default.findOne({ _id: id });
+    res.json(skill);
 });
 exports.getSkill = getSkill;
 /**
@@ -54,12 +52,12 @@ exports.getSkill = getSkill;
  * @param res
  */
 const createSkill = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { name, email, password } = req.body;
-    const project = new skill_model_1.default({ name, email, password });
+    const { title, description, value } = req.body;
+    const skill = new skill_model_1.default({ title, description, value });
     //Save user
-    yield project.save();
+    yield skill.save();
     res.json({
-        project,
+        skill,
     });
 });
 exports.createSkill = createSkill;
@@ -70,16 +68,16 @@ exports.createSkill = createSkill;
  */
 const editSkill = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;
-    const _a = req.body, { _id, password } = _a, user = __rest(_a, ["_id", "password"]);
-    const existEmail = yield skill_model_1.default.findOne({ email: user.email });
-    if (existEmail && (existEmail._id.toString() !== id.toString())) {
+    const _a = req.body, { _id } = _a, skill = __rest(_a, ["_id"]);
+    const existSkill = yield skill_model_1.default.findOne({ title: skill.title });
+    if (existSkill && (existSkill._id.toString() !== id.toString())) {
         return res.status(400).json({
-            message: 'Email is already exist',
+            message: 'Skill is already exist',
         });
     }
     //Save changes
-    const userDB = yield skill_model_1.default.findByIdAndUpdate(id, user, { new: true });
-    res.json(userDB);
+    const skillDB = yield skill_model_1.default.findByIdAndUpdate(id, skill, { new: true });
+    res.json(skillDB);
 });
 exports.editSkill = editSkill;
 /**
@@ -90,8 +88,8 @@ exports.editSkill = editSkill;
 const deleteSkill = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     //Change status false and keep the record.
-    const user = yield skill_model_1.default.findByIdAndUpdate(id, { status: false }, { new: true });
-    res.json(user);
+    const skill = yield skill_model_1.default.findByIdAndUpdate(id, { status: false }, { new: true });
+    res.json(skill);
 });
 exports.deleteSkill = deleteSkill;
 //# sourceMappingURL=skill.controller.js.map

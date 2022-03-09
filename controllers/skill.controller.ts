@@ -9,11 +9,9 @@ import Skill from "../models/skill.model";
  */
 export const getSkills = async (req:Request, res:Response) => {
    
-    const projects = await Skill.find();
+    const skills = await Skill.find();
 
-    res.json({
-        projects,
-    });
+    res.json(skills);
 }
 
 /**
@@ -24,9 +22,9 @@ export const getSkills = async (req:Request, res:Response) => {
 export const getSkill = async (req:Request, res:Response) => {
     const { id } = req.params;
 
-    const project = await Skill.findOne({ _id: id });
+    const skill = await Skill.findOne({ _id: id });
 
-    res.json(project);
+    res.json(skill);
 }
 
 /**
@@ -36,13 +34,13 @@ export const getSkill = async (req:Request, res:Response) => {
  */
 export const createSkill = async (req:Request, res:Response) => {
 
-    const { name, email, password } = req.body;
-    const project = new Skill({ name, email, password });
+    const { title, description, value } = req.body;
+    const skill = new Skill({ title, description, value });
 
     //Save user
-    await project.save();
+    await skill.save();
     res.json({
-        project,
+        skill,
     });
 }
 
@@ -53,18 +51,18 @@ export const createSkill = async (req:Request, res:Response) => {
  */
 export const editSkill = async (req:Request, res:Response) => {
     const id = req.params.id;
-    const { _id, password, ...user } = req.body;
+    const { _id, ...skill } = req.body;
 
-    const existEmail = await Skill.findOne({ email: user.email });
-    if(existEmail && (existEmail._id.toString() !== id.toString())){
+    const existSkill = await Skill.findOne({ title: skill.title });
+    if(existSkill && (existSkill._id.toString() !== id.toString())){
         return res.status(400).json({
-            message: 'Email is already exist',
+            message: 'Skill is already exist',
         });
     }
     
     //Save changes
-    const userDB = await Skill.findByIdAndUpdate(id, user, { new:true });
-    res.json(userDB);
+    const skillDB = await Skill.findByIdAndUpdate(id, skill, { new:true });
+    res.json(skillDB);
 }
 
 /**
@@ -76,7 +74,7 @@ export const deleteSkill = async (req:Request, res:Response) => {
     const { id } = req.params;
 
     //Change status false and keep the record.
-    const user = await Skill.findByIdAndUpdate(id, { status: false }, { new:true });
+    const skill = await Skill.findByIdAndUpdate(id, { status: false }, { new:true });
   
-    res.json(user);
+    res.json(skill);
 }

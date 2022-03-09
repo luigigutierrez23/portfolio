@@ -2,11 +2,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const express_validator_1 = require("express-validator");
-const dbValidatorHelper_1 = require("../helpers/dbValidatorHelper");
+/** Middlewares */
+const jwtValidator_1 = require("../middlewares/jwtValidator");
 const fieldValidator_1 = require("../middlewares/fieldValidator");
+/** Helpers */
+const skillHelper_1 = require("../helpers/skillHelper");
 /** Controller methods */
 const skill_controller_1 = require("../controllers/skill.controller");
-const jwtValidator_1 = require("../middlewares/jwtValidator");
 const router = (0, express_1.Router)();
 /**
  * Get all skills
@@ -17,8 +19,8 @@ router.get('/', skill_controller_1.getSkills);
 */
 router.get('/:id', [
     (0, express_validator_1.check)('id', 'Is not a valid id').isMongoId(),
-    (0, express_validator_1.check)('id').custom(dbValidatorHelper_1.existUserById),
-    (0, express_validator_1.check)('id').custom(dbValidatorHelper_1.existUserByStatus),
+    (0, express_validator_1.check)('id').custom(skillHelper_1.existSkillById),
+    (0, express_validator_1.check)('id').custom(skillHelper_1.existSkillByStatus),
     fieldValidator_1.validateFields,
 ], skill_controller_1.getSkill);
 /**
@@ -26,10 +28,10 @@ router.get('/:id', [
  */
 router.post('/', [
     jwtValidator_1.validateJWT,
-    (0, express_validator_1.check)('name', 'Name is required').notEmpty(),
-    (0, express_validator_1.check)('password', 'Password is required and must be greater than 6 characters').isLength({ min: 6 }),
-    (0, express_validator_1.check)('email', 'Email is not valid').isEmail(),
-    (0, express_validator_1.check)('email').custom(dbValidatorHelper_1.existEmail),
+    (0, express_validator_1.check)('title', 'Title is required').notEmpty(),
+    (0, express_validator_1.check)('description', 'Description is required').notEmpty(),
+    (0, express_validator_1.check)('value', 'Value is required').notEmpty(),
+    (0, express_validator_1.check)('value', 'Value must be a number').isNumeric(),
     fieldValidator_1.validateFields
 ], skill_controller_1.createSkill);
 /**
@@ -38,8 +40,11 @@ router.post('/', [
 router.put('/:id', [
     jwtValidator_1.validateJWT,
     (0, express_validator_1.check)('id', 'Is not a valid id').isMongoId(),
-    (0, express_validator_1.check)('id').custom(dbValidatorHelper_1.existUserById),
-    (0, express_validator_1.check)('email', 'Email is not valid').isEmail(),
+    (0, express_validator_1.check)('id').custom(skillHelper_1.existSkillById),
+    (0, express_validator_1.check)('title', 'Title is required').notEmpty(),
+    (0, express_validator_1.check)('description', 'Description is required').notEmpty(),
+    (0, express_validator_1.check)('value', 'Value is required').notEmpty(),
+    (0, express_validator_1.check)('value', 'Value must be a number').isNumeric(),
     fieldValidator_1.validateFields,
 ], skill_controller_1.editSkill);
 /**
@@ -48,7 +53,7 @@ router.put('/:id', [
 router.delete('/:id', [
     jwtValidator_1.validateJWT,
     (0, express_validator_1.check)('id', 'Is not a valid id').isMongoId(),
-    (0, express_validator_1.check)('id').custom(dbValidatorHelper_1.existUserById),
+    (0, express_validator_1.check)('id').custom(skillHelper_1.existSkillById),
     fieldValidator_1.validateFields,
 ], skill_controller_1.deleteSkill);
 exports.default = router;

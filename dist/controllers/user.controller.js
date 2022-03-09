@@ -34,9 +34,7 @@ const user_model_1 = __importDefault(require("../models/user.model"));
 const getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const query = { status: true };
     const users = yield user_model_1.default.find(query);
-    res.json({
-        users,
-    });
+    res.json(users);
 });
 exports.getUsers = getUsers;
 /**

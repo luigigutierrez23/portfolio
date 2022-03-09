@@ -1,13 +1,15 @@
 import { Router } from 'express';
 import { check } from 'express-validator';
 
-import { existCategoryById, existCategoryByStatus } from '../helpers/dbValidatorHelper';
+/** Middlewares */
 import { validateFields } from '../middlewares/fieldValidator';
+import { validateJWT } from '../middlewares/jwtValidator';
+
+/** Helpers */
+import { existCategoryById, existCategoryByStatus } from '../helpers/categoryHelper';
 
 /** Controller methods */
 import { getCategories, getCategory, createCategory, editCategory, deleteCategory } from '../controllers/category.controller';
-
-import { validateJWT } from '../middlewares/jwtValidator';
 
 
 const router = Router();

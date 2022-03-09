@@ -1,12 +1,15 @@
 import { Router } from 'express';
 import { check } from 'express-validator';
 
-import { existEmail, existUserById, existUserByStatus } from '../helpers/dbValidatorHelper';
+/** Helpers */
+import { existEmail, existUserById, existUserByStatus } from '../helpers/userHelper';
+
+/** Middlewares */
+import { validateJWT } from '../middlewares/jwtValidator';
 import { validateFields } from '../middlewares/fieldValidator';
 
 /** Controller methods */
 import { getUsers, getUser, createUser, editUser, deleteUser } from '../controllers/user.controller';
-import { validateJWT } from '../middlewares/jwtValidator';
 
 
 const router = Router();

@@ -11,9 +11,7 @@ export const getCategories = async (req:Request, res:Response) => {
    
     const categories = await Category.find({status: true});
 
-    res.json({
-        categories,
-    });
+    res.json(categories);
 }
 
 /**

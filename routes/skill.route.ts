@@ -1,14 +1,15 @@
 import { Router } from 'express';
 import { check } from 'express-validator';
 
-import { existEmail, existUserById, existUserByStatus } from '../helpers/dbValidatorHelper';
+/** Middlewares */
+import { validateJWT } from '../middlewares/jwtValidator';
 import { validateFields } from '../middlewares/fieldValidator';
+
+/** Helpers */
+import { existSkillById, existSkillByStatus } from '../helpers/skillHelper';
 
 /** Controller methods */
 import { getSkills, getSkill, createSkill, editSkill, deleteSkill } from '../controllers/skill.controller';
-
-import { validateJWT } from '../middlewares/jwtValidator';
-
 
 const router = Router();
 
@@ -22,8 +23,8 @@ router.get('/', getSkills);
 */
 router.get('/:id', [
     check('id', 'Is not a valid id').isMongoId(),
-    check('id').custom(existUserById),
-    check('id').custom(existUserByStatus),
+    check('id').custom(existSkillById),
+    check('id').custom(existSkillByStatus),
     validateFields,
 ], getSkill);
 
@@ -32,10 +33,10 @@ router.get('/:id', [
  */
 router.post('/', [
     validateJWT,
-    check('name', 'Name is required').notEmpty(),
-    check('password', 'Password is required and must be greater than 6 characters').isLength({ min:6 }),
-    check('email', 'Email is not valid').isEmail(),
-    check('email').custom(existEmail),
+    check('title', 'Title is required').notEmpty(),
+    check('description', 'Description is required').notEmpty(),
+    check('value', 'Value is required').notEmpty(),
+    check('value', 'Value must be a number').isNumeric(),
     validateFields  
 ], createSkill);
 
@@ -45,8 +46,11 @@ router.post('/', [
 router.put('/:id', [
     validateJWT,
     check('id', 'Is not a valid id').isMongoId(),
-    check('id').custom(existUserById),
-    check('email', 'Email is not valid').isEmail(),
+    check('id').custom(existSkillById),
+    check('title', 'Title is required').notEmpty(),
+    check('description', 'Description is required').notEmpty(),
+    check('value', 'Value is required').notEmpty(),
+    check('value', 'Value must be a number').isNumeric(),
     validateFields,
 ], editSkill);
 
@@ -56,7 +60,7 @@ router.put('/:id', [
 router.delete('/:id', [
     validateJWT,
     check('id', 'Is not a valid id').isMongoId(),
-    check('id').custom(existUserById),
+    check('id').custom(existSkillById),
     validateFields,
 ], deleteSkill);
 

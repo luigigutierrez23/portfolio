@@ -32,9 +32,7 @@ const category_model_1 = __importDefault(require("../models/category.model"));
  */
 const getCategories = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const categories = yield category_model_1.default.find({ status: true });
-    res.json({
-        categories,
-    });
+    res.json(categories);
 });
 exports.getCategories = getCategories;
 /**

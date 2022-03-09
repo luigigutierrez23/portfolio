@@ -76,7 +76,7 @@ export const deleteCategory = async (req:Request, res:Response) => {
     const { id } = req.params;
 
     //Change status false and keep the record.
-    const user = await Category.findByIdAndUpdate(id, { status: false }, { new:true });
+    const category = await Category.findByIdAndUpdate(id, { status: false }, { new:true });
   
-    res.json(user);
+    res.json(category);
 }

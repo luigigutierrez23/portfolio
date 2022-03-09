@@ -90,8 +90,8 @@ exports.editCategory = editCategory;
 const deleteCategory = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     //Change status false and keep the record.
-    const user = yield category_model_1.default.findByIdAndUpdate(id, { status: false }, { new: true });
-    res.json(user);
+    const category = yield category_model_1.default.findByIdAndUpdate(id, { status: false }, { new: true });
+    res.json(category);
 });
 exports.deleteCategory = deleteCategory;
 //# sourceMappingURL=category.controller.js.map

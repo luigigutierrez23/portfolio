@@ -12,8 +12,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.existUserByStatus = exports.existUserById = exports.existEmail = void 0;
+exports.existCategoryByStatus = exports.existCategoryById = exports.existUserByStatus = exports.existUserById = exports.existEmail = void 0;
+const category_model_1 = __importDefault(require("../models/category.model"));
 const user_model_1 = __importDefault(require("../models/user.model"));
+/****
+ *
+ *  User Helpers
+ *
+ */
 /**
  * Verify if email exist
  * @param email
@@ -47,4 +53,31 @@ const existUserByStatus = (id = '') => __awaiter(void 0, void 0, void 0, functio
     }
 });
 exports.existUserByStatus = existUserByStatus;
+/****
+ *
+ *  Category Helpers
+ *
+ */
+/**
+ * Verify if category exist
+ * @param id
+ */
+const existCategoryById = (id = '') => __awaiter(void 0, void 0, void 0, function* () {
+    const exist = yield category_model_1.default.findById(id);
+    if (!exist) {
+        throw new Error(`Category id: ${id} doesn't exist.`);
+    }
+});
+exports.existCategoryById = existCategoryById;
+/**
+ * Verify if user exist by status
+ * @param id
+ */
+const existCategoryByStatus = (id = '') => __awaiter(void 0, void 0, void 0, function* () {
+    const exist = yield category_model_1.default.findOne({ _id: id, status: true });
+    if (!exist) {
+        throw new Error(`Category id: ${id} doesn't exist.`);
+    }
+});
+exports.existCategoryByStatus = existCategoryByStatus;
 //# sourceMappingURL=dbValidatorHelper.js.map

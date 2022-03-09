@@ -14,11 +14,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
-// import {  } from 'express-fileupload'
+/** Enums */
 const enumPath_1 = require("../common/types/enumPath");
+/** Database connection */
 const connection_1 = __importDefault(require("../database/connection"));
+/** Routes */
 const user_route_1 = __importDefault(require("../routes/user.route"));
 const auth_route_1 = __importDefault(require("../routes/auth.route"));
+const projects_route_1 = __importDefault(require("../routes/projects.route"));
+const skill_route_1 = __importDefault(require("../routes/skill.route"));
+const category_route_1 = __importDefault(require("../routes/category.route"));
 class Server {
     constructor() {
         this.path = enumPath_1.EnumPath;
@@ -45,16 +50,13 @@ class Server {
         this.app.use(express_1.default.json());
         //Public folder
         this.app.use(express_1.default.static('public'));
-        //File upload
-        // this.app.use(fileUpload({
-        //     useTempFiles : true,
-        //     tempFileDir : '/tmp/',
-        //     createParentPath: true
-        // }));
     }
     routes() {
         this.app.use(this.path.user, user_route_1.default);
         this.app.use(this.path.auth, auth_route_1.default);
+        this.app.use(this.path.project, projects_route_1.default);
+        this.app.use(this.path.skill, skill_route_1.default);
+        this.app.use(this.path.category, category_route_1.default);
     }
     listen() {
         this.app.listen(this.port, () => {

@@ -48,7 +48,7 @@ class Server {
         this.app.use((0, cors_1.default)());
         //Body reading
         this.app.use(express_1.default.json());
-        //Public folder
+        //Client side folder
         this.app.use(express_1.default.static('public'));
     }
     routes() {

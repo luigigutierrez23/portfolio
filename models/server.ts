@@ -1,5 +1,6 @@
 import express, { Application } from 'express';
 import cors from 'cors';
+import path from 'path'
 
 /** Enums */
 import { EnumPath } from '../common/types/enums/enumPath';
@@ -43,8 +44,8 @@ class Server{
         //Body reading
         this.app.use(express.json());
 
-        //Public folder
-        this.app.use(express.static('public'));
+        //Client side folder
+        this.app.use(express.static('public'))
     }
 
     routes(){

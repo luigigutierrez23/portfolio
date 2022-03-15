@@ -1,4 +1,5 @@
 import React from 'react';
+import { Container, Row } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
 
 interface IProps {
@@ -6,12 +7,14 @@ interface IProps {
     content?: string;
 }
 
-const LoadingComponent: React.FC<IProps> = ({ inverted, content }) => {
+const Loader: React.FC<IProps> = ({ inverted, content }) => {
     return (
-        <Spinner animation='border'>
-            <span className="visually-hidden">{content}</span>
-        </Spinner>
+        <Container fluid className='d-flex justify-content-center align-items-center' style={{'height': '100vh'}}>
+            <Spinner animation='border'>
+                <span className="visually-hidden">{content}</span>
+            </Spinner> 
+        </Container>
     );
   };
   
-export default LoadingComponent;
+export default Loader;

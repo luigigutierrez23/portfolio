@@ -1,0 +1,1 @@
+import LoaderComponent from './Loader';

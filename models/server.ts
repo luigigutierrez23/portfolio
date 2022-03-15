@@ -45,7 +45,7 @@ class Server{
         this.app.use(express.json());
 
         //Client side folder
-        this.app.use(express.static('public'))
+        this.app.use(express.static('wwwroot'));
     }
 
     routes(){

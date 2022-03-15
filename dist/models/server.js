@@ -49,7 +49,7 @@ class Server {
         //Body reading
         this.app.use(express_1.default.json());
         //Client side folder
-        this.app.use(express_1.default.static('public'));
+        this.app.use(express_1.default.static('wwwroot'));
     }
     routes() {
         this.app.use(this.path.user, user_route_1.default);

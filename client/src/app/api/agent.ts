@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosResponse } from 'axios';
 import { toast } from 'react-toastify';
 
 /** Models */
-import { User } from '../models/Users';
+import { User, UserFormValues, UserLogin } from '../models/users';
 
 const sleep = (ms: number) => (response: AxiosResponse) =>
   new Promise<AxiosResponse>((resolve) =>
@@ -82,8 +82,13 @@ const Users = {
   delete: (id: string) => requests.del<void>(`account/${id}`),
 };
 
+const Auth = {
+  login: (user: UserFormValues) => requests.post<UserLogin>("/auth/login", user),
+}
+
 const agent = {
   Users,
+  Auth
 };
 
 export default agent;

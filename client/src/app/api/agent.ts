@@ -1,8 +1,10 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { toast } from 'react-toastify';
+import { history } from '../..';
 
 /** Models */
 import { User, UserFormValues, UserLogin } from '../models/users';
+import { store } from '../stores/store';
 
 const sleep = (ms: number) => (response: AxiosResponse) =>
   new Promise<AxiosResponse>((resolve) =>
@@ -26,7 +28,7 @@ axios.interceptors.response.use(
           data.errors &&
           data.errors.hasOwnProperty('id')
         ) {
-          // history.push("/not-found");
+          history.push("/not-found");
         }
 
         if (data.errors) {
@@ -48,16 +50,15 @@ axios.interceptors.response.use(
             'Bearer error="invalid_token"'
           )
         ) {
-          // store.userStore.logout();
+          store.userStore.logout();
           toast.error('Sesion expired - please login again');
         }
         break;
       case 404:
-        //   history.push("/not-found");
-        toast.error('Sesion expired - please login again');
+          history.push("/not-found");
         break;
       case 500:
-        //   store.commonStore.setServerError(data);
+          store.commonStore.setServerError(data);
         //   history.push("/server-error");
         break;
     }

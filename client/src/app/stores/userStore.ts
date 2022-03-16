@@ -1,4 +1,6 @@
 import { makeAutoObservable, runInAction } from "mobx";
+import { toast } from "react-toastify";
+import { history } from "../..";
 import agent from "../api/agent";
 import { UserFormValues, UserLogin } from "../models/users";
 import { store } from "./store";
@@ -21,7 +23,9 @@ export default class UserStore {
       store.commonStore.setToken(user.token);
     //   this.startRefreshTokenTimer(user);
       runInAction(() => (this.user = user));
-    } catch (error) {
+      history.push('/home');
+    } catch (error: any) {
+      toast.error(error.response.data.msg);
       throw error;
     }
   };

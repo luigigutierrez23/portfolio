@@ -1,6 +1,6 @@
 import React from "react";
 import { useField } from "formik";
-import { FloatingLabel, Form } from "react-bootstrap";
+import { FloatingLabel, Form, FormLabel } from "react-bootstrap";
 
 interface Props {
   placeholder: string;
@@ -11,22 +11,19 @@ interface Props {
 
 export default function CustomTextInput(props: Props) {
   const [field, meta] = useField(props.name);
-  console.log(field, props);
-  
   return (
     <>
         <FloatingLabel 
             controlId={props.name}
             label={props.placeholder}
         >
-          <Form.Label>{props.label}</Form.Label>
-          <Form.Control {...field} {...props}/>
-          {meta.touched && meta.error ? (
-            <Form.Label color="red">
-              {meta.error}
-            </Form.Label>
-          ) : null}
+          <Form.Control {...field} {...props} /> 
         </FloatingLabel>
+        {meta.touched && meta.error ? (
+            <FormLabel className="text-danger">
+              {meta.error}
+            </FormLabel>
+          ) : null}
     </> 
   );
 }

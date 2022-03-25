@@ -5,6 +5,7 @@ import { history } from '../..';
 /** Models */
 import { User, UserFormValues, UserLogin } from '../models/users';
 import { store } from '../stores/store';
+import { Project } from '../models/projects';
 
 const sleep = (ms: number) => (response: AxiosResponse) =>
   new Promise<AxiosResponse>((resolve) =>
@@ -13,14 +14,20 @@ const sleep = (ms: number) => (response: AxiosResponse) =>
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
+axios.interceptors.request.use((config) => {
+  const token = window.localStorage.getItem("jwt");
+  if (token) config.headers!.Authorization = `Bearer ${token}`;
+  return config;
+});
+
 axios.interceptors.response.use(
   async (response) => {
-    if (process.env.NODE_ENV === 'development') await sleep(3000);
+    if (process.env.NODE_ENV === 'development') await sleep(50000);
     return response;
   },
   (error: AxiosError) => {
     const { data, status, config, headers } = error.response!;
- 
+
     switch (status) {
       case 400:
         if (
@@ -55,10 +62,10 @@ axios.interceptors.response.use(
         }
         break;
       case 404:
-          history.push("/not-found");
+        history.push("/not-found");
         break;
       case 500:
-          store.commonStore.setServerError(data);
+        store.commonStore.setServerError(data);
         //   history.push("/server-error");
         break;
     }
@@ -69,10 +76,10 @@ axios.interceptors.response.use(
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
 const requests = {
-  get:  <T>(url: string) => axios.get<T>(url).then(responseBody),
+  get: <T>(url: string) => axios.get<T>(url).then(responseBody),
   post: <T>(url: string, body: {}) => axios.post<T>(url, body).then(responseBody),
-  put:  <T>(url: string, body: {}) => axios.put<T>(url, body).then(responseBody),
-  del:  <T>(url: string) => axios.delete<T>(url).then(responseBody),
+  put: <T>(url: string, body: {}) => axios.put<T>(url, body).then(responseBody),
+  del: <T>(url: string) => axios.delete<T>(url).then(responseBody),
 };
 
 const Users = {
@@ -83,13 +90,22 @@ const Users = {
   delete: (id: string) => requests.del<void>(`account/${id}`),
 };
 
+const Projects = {
+  list: () => axios.get<Project[]>('/projects').then(responseBody),
+  details: (id: string) => requests.get<Project>(`/projects/${id}`),
+  // create: (post: PostFormValues) => requests.post<void>("/account", post),
+  // update: (post: PostFormValues) => requests.put<void>(`account/${post.id}`, post),
+  delete: (id: string) => requests.del<void>(`projects/${id}`),
+};
+
 const Auth = {
   login: (user: UserFormValues) => requests.post<UserLogin>("/auth/login", user),
 }
 
 const agent = {
   Users,
-  Auth
+  Auth,
+  Projects
 };
 
 export default agent;

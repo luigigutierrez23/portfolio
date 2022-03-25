@@ -23,7 +23,7 @@ export default class UserStore {
       store.commonStore.setToken(user.token);
     //   this.startRefreshTokenTimer(user);
       runInAction(() => (this.user = user));
-      history.push('/home');
+      history.push('/home'); 
     } catch (error: any) {
       toast.error(error.response.data.msg);
       throw error;

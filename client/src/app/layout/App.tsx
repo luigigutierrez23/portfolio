@@ -6,19 +6,19 @@ import 'react-toastify/dist/ReactToastify.css';
 
 /** Components */
 import { ToastContainer } from 'react-toastify';
+import { Row, Col, Container } from 'react-bootstrap';
+
 
 /** Custom components */
-import Loader from './Loader';
 import Login from '../../components/login/Login';
 import Home from '../../components/home/Home';
 import NotFound from '../../components/common/errors/NotFound';
 import Sidebar from './sidebar/Sidebar';
 import NavBar from './NavBar';
-import { Row, Col, Container } from 'react-bootstrap';
+import ProjectDetails from '../../components/projects/details/ProjectDetails';
+import ProjectDashboard from '../../components/projects/dashboard/ProjectDashboard';
 
 const App = () => {
-  //TODO: Add loader
-
   return (
     <>
       <ToastContainer position='bottom-right' theme='colored' autoClose={1500} hideProgressBar />
@@ -36,6 +36,8 @@ const App = () => {
                 <Container style={{ marginTop: "7em" }}>
                   <Switch>
                     <Route path="/overview" component={Home} />
+                    <Route exact path="/projects" component={ProjectDashboard} />
+                    <Route path="/projects/:id" component={ProjectDetails} />
                     <Route component={NotFound} />
                   </Switch>
                 </Container>
